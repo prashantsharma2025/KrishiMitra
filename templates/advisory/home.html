@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>KrishiMitra AI</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Main page container */
+        .page-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 45px 20px;
+        }
+
+        /* Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            color: #198754;
+            font-size: 46px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .page-header p {
+            font-size: 18px;
+            color: #6c757d;
+            margin-bottom: 0;
+        }
+
+        /* Form card */
+        .content-panel {
+            width: 100%;
+            max-width: 875px;
+            margin: 0 auto;
+            background: #fff;
+            border: 1px solid #d6d6d6;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-body {
+            padding: 30px !important;
+        }
+
+        .form-title {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 18px;
+        }
+
+        /* Align every Django form row */
+        .content-panel form p {
+            display: grid;
+            grid-template-columns: 145px minmax(0, 1fr);
+            align-items: center;
+            column-gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        /* Labels */
+        .content-panel form p label {
+            margin: 0;
+            font-size: 17px;
+            white-space: nowrap;
+        }
+
+        /* Input boxes */
+        .content-panel form p input,
+        .content-panel form p select,
+        .content-panel form p textarea {
+            width: 100%;
+            max-width: 235px;
+            min-width: 0;
+            min-height: 38px;
+            padding: 7px 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .content-panel form p input:focus,
+        .content-panel form p select:focus,
+        .content-panel form p textarea:focus {
+            outline: none;
+            border-color: #198754;
+            box-shadow: 0 0 0 3px rgba(25, 135, 84, 0.15);
+        }
+
+        /* Predict button */
+        .predict-btn {
+            width: 100%;
+            padding: 11px;
+            font-size: 18px;
+            border-radius: 7px;
+        }
+
+        /* Prediction result */
+        .result-panel {
+            max-width: 875px;
+            margin: 24px auto 0;
+            padding: 24px;
+            overflow-wrap: anywhere;
+        }
+
+        /* Mobile responsive layout */
+        @media (max-width: 576px) {
+            .page-container {
+                padding: 25px 12px;
+            }
+
+            .page-header h1 {
+                font-size: 32px;
+            }
+
+            .page-header p {
+                font-size: 16px;
+            }
+
+            .card-body {
+                padding: 20px !important;
+            }
+
+            .form-title {
+                font-size: 23px;
+            }
+
+            .content-panel form p {
+                grid-template-columns: 1fr;
+                row-gap: 7px;
+                margin-bottom: 16px;
+            }
+
+            .content-panel form p label {
+                white-space: normal;
+            }
+
+            .content-panel form p input,
+            .content-panel form p select,
+            .content-panel form p textarea {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="page-container">
+
+        <!-- Page header -->
+        <div class="page-header">
+            <h1>🌱 KrishiMitra AI</h1>
+            <p>
+                Explore crop suitability using machine learning.
+            </p>
+        </div>
+
+        <!-- Input form -->
+        <div class="card content-panel">
+            <div class="card-body">
+
+                <h2 class="form-title">
+                    Enter soil and climate details
+                </h2>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    {{ form.as_p }}
+
+                    <button
+                        class="btn btn-success predict-btn"
+                        type="submit"
+                    >
+                        Predict Crop
+                    </button>
+                </form>
+
+            </div>
+        </div>
+
+        <!-- Prediction result -->
+        {% if result %}
+        <div class="alert alert-success result-panel mb-0">
+            <h3>Predicted crop: {{ result.crop }}</h3>
+
+            <p class="mb-2">
+                Model confidence: {{ result.confidence }}%
+            </p>
+
+            <small>
+                Educational prediction only. This result is not a
+                verified farming recommendation. Consult local
+                agricultural experts before making farming decisions.
+            </small>
+        </div>
+        {% endif %}
+
+    </div>
+
+</body>
+</html>
